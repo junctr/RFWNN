@@ -311,8 +311,8 @@ beta = 0.1 * np.array([
 )
 
 t = 0.0
-end = 1
-step = 0.0001
+end = 100
+step = 0.001
 i = 0
 
 m = -0.01

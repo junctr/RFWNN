@@ -312,7 +312,7 @@ beta = 0.1 * np.array([
 
 t = 0.0
 end = 100
-step = 0.0001
+step = 0.001
 i = 0
 
 m = -0.01
@@ -644,5 +644,5 @@ ax12.grid()
 fig.tight_layout()
 
 plt.title("zeta2_beta_m_s22")
-plt.savefig(f"new_s22_step{step}_end{end}.png")
+plt.savefig(f"data/new_s22_step{step}_end{end}.png")
 plt.show()
