@@ -15,7 +15,7 @@ def system(t, q, p, l, g, tau):
     dq = np.empty((3, 2), dtype=np.float64)
 
     #dq = [[q1,q1_dot],[q2,q2_dot],[q3,q3_dot]]
-    
+
     dq[:,[0]] = q[:,[1]]
     dq[:,[1]] = np.linalg.inv(M(t,q,p,l)) @ (tau - tau0(t) - np.dot(C(t,q,p,l), q[:,[1]]) - G(t,q,l,p,g) - F(t,q))
 
@@ -64,7 +64,7 @@ def F(t, q):
     )
 
     return F
-    
+
 def qd(t):
 
     qd = np.array([
