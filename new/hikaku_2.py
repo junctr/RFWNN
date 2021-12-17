@@ -29,8 +29,8 @@ n_seed = 4
 alpha_lambda = 0.3
 T = 1000
 step = 0.0001
-end = 10
-end_plt = 10
+end = 100
+end_plt = 100
 start_plt = 0
 
 # n_e = 3
@@ -44,13 +44,13 @@ e_all_p = np.loadtxt(f"data/n_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_e
 
 
 
-fig, axes = plt.subplots(nrows=3, ncols=7, sharex=False)
+fig, axes = plt.subplots(nrows=7, ncols=3, sharex=False)
 
 for i in range(7):
     
     for j in range(3):
-        axes[j,i].plot(t_data, e_all_p[3*i+j])
+        axes[i,j].plot(t_data, e_all_p[3*i+j],label=f"{3*i+j}")
+        axes[i,j].legend()
+        axes[i,j].grid
 
-
-
-fig.show()
+plt.show()
