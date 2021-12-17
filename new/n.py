@@ -313,7 +313,7 @@ beta = 0.1 * np.array([
 t = 0.0
 end = 10
 
-step = 0.0001
+step = 0.00001
 i = 0
 
 m = -0.01

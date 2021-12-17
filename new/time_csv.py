@@ -5,13 +5,14 @@ from tqdm import tqdm
 
 t = 0
 end = 10
-step = 0.0001
+step = 0.00001
 i = 0
 t_data = []
 
 start = time.time()
 
 for i in tqdm(range(int(end/step))):
+# while t < end:
 
     if i%10 == 0:
 
