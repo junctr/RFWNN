@@ -1,6 +1,7 @@
 import csv
 import time
 import numpy as np
+from tqdm import tqdm
 
 t = 0
 end = 10
@@ -10,7 +11,7 @@ t_data = []
 
 start = time.time()
 
-while t < end:
+for i in tqdm(range(int(end/step))):
 
     if i%10 == 0:
 
