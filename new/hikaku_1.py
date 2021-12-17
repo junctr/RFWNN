@@ -35,7 +35,7 @@ start_plt = 0
 
 n_e = 3
 
-t_data = np.loadtxt(f"data/time{end}.csv")
+t_data = np.loadtxt(f"data/step{step}_t{end}.csv")
 #e_data = np.loadtxt(f"p_s{s}_e_all.csv")
 #e_all = np.load(f"p_s{s}_e_all.npy",allow_pickle=True)
 

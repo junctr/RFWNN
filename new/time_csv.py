@@ -4,8 +4,8 @@ import numpy as np
 from tqdm import tqdm
 
 t = 0
-end = 10
-step = 0.00001
+end = 100
+step = 0.0001
 i = 0
 t_data = []
 
@@ -18,7 +18,7 @@ for i in tqdm(range(int(end/step))):
 
         t_data.append(t)
 
-        print(round(100*t/end, 1),"%",i,round(time.time()-start, 1),"s")
+        # print(round(100*t/end, 1),"%",i,round(time.time()-start, 1),"s")
 
     t += step
     i += 1
@@ -31,4 +31,4 @@ with open("time20.csv","w")as f:
 f.close()
 """
 print(len(t_data))
-np.savetxt(f"data/time{end}.csv",t_data)
+np.savetxt(f"data/step{step}_t{end}.csv",t_data)
