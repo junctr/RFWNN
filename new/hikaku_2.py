@@ -49,7 +49,7 @@ fig, axes = plt.subplots(nrows=3, ncols=7, sharex=False)
 for i in range(7):
     
     for j in range(3):
-        axes[j,i].plot(t_data, e_all_p[i+j])
+        axes[j,i].plot(t_data, e_all_p[3*i+j])
 
 
 
