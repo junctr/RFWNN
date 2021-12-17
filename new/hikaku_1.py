@@ -26,7 +26,7 @@ e_20.append(s[2])
 e_21.append(beta.T @ omega)
 """
 n_seed = 4
-alpha_lambda = 0.4
+alpha_lambda = 0.3
 T = 1000
 step = 0.0001
 end = 10
@@ -35,11 +35,11 @@ start_plt = 0
 
 n_e = 3
 
-t_data = np.loadtxt(f"time{end}.csv")
+t_data = np.loadtxt(f"data/time{end}.csv")
 #e_data = np.loadtxt(f"p_s{s}_e_all.csv")
 #e_all = np.load(f"p_s{s}_e_all.npy",allow_pickle=True)
 
-e_all_p = np.loadtxt(f"data/n_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_param_all.npy",param_all)
+e_all_p = np.loadtxt(f"data/n_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_e_all.csv",)
 # e_all_c = np.loadtxt(f"k_s{n_seed}_m0.0_T{T}_t{end}_e_all.csv")
 
 e1_p_data = e_all_p[n_e]
