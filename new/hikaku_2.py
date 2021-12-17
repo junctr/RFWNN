@@ -33,7 +33,7 @@ end = 10
 end_plt = 10
 start_plt = 0
 
-n_e = 3
+# n_e = 3
 
 t_data = np.loadtxt(f"data/step{step}_t{end}.csv")
 #e_data = np.loadtxt(f"p_s{s}_e_all.csv")
@@ -42,23 +42,15 @@ t_data = np.loadtxt(f"data/step{step}_t{end}.csv")
 e_all_p = np.loadtxt(f"data/n_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_e_all.csv",)
 # e_all_c = np.loadtxt(f"k_s{n_seed}_m0.0_T{T}_t{end}_e_all.csv")
 
-e1_p_data = e_all_p[n_e]
-# e1_c_data = e_all_c[n_e]
 
-# plt.plot(t_data, e1_c_data, color="tab:green", label = "Conventional")
-plt.plot(t_data, e1_p_data, color="tab:red", label = "Proposed")
-
-plt.xlabel("time (s)")
-plt.ylabel(f"tracking error of link {n_e} (rad)")
-
-plt.xlim(start_plt,end_plt)
-#plt.ylim(-40,40)
-plt.legend()
-plt.grid()
-
-plt.show()
 
 fig, axes = plt.subplots(nrows=3, ncols=7, sharex=False)
 
+for i in range(7):
+    
+    for j in range(3):
+        axes[j,i].plot(t_data, e_all_p[i+j])
 
 
+
+fig.show()
