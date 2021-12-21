@@ -33,23 +33,26 @@ end = 100
 end_plt = 100
 start_plt = 0
 
-# n_e = 3
+n_e = 3
 
 t_data = np.loadtxt(f"data/step{step}_t{end}.csv")
 #e_data = np.loadtxt(f"p_s{s}_e_all.csv")
 #e_all = np.load(f"p_s{s}_e_all.npy",allow_pickle=True)
 
-e_all_p = np.loadtxt(f"data/n_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_e_all.csv",)
-# e_all_c = np.loadtxt(f"k_s{n_seed}_m0.0_T{T}_t{end}_e_all.csv")
+e_all_p = np.loadtxt(f"data/n_wn_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_e_all.csv")
+e_all_c = np.loadtxt(f"data/n_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_e_all.csv")
+
+# e1_p_data = e_all_p[n_e]
+# e1_c_data = e_all_c[n_e]
 
 
+fig, axes = plt.subplots(nrows=3, ncols=1, sharex=False)
 
-fig, axes = plt.subplots(nrows=7, ncols=3, sharex=False)
-
-for i in range(7):
+for i in range(3):
     
-    for j in range(3):
-        axes[i,j].plot(t_data, e_all_p[3*i+j],label=f"{3*i+j}")
+    for j in range(1):
+        axes[i,j].plot(t_data, e_all_c[3*i+j], color="tab:green", label = "Conventional")
+        axes[i,j].plot(t_data, e_all_p[3*i+j], color="tab:red", label = "Proposed")
         axes[i,j].legend()
         axes[i,j].grid
 
