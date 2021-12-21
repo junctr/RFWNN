@@ -62,7 +62,7 @@ def main():
     plt.plot(t_data,tau0_data[0])
     # plt.plot(t_data,wn_data)
     
-    plt.savefig(f"wn_step{step}.png")
+    plt.savefig(f"data/wn_step{step}.png")
     
     plt.show()
     
