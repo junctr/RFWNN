@@ -320,10 +320,10 @@ alpha_beta = 0.001 * np.identity(5, dtype=np.float64)
 alpha_zeta = 0.1
 alpha_lambda = 0.3
 alpha_wn0 = 100
-alpha_wn1 = 1.0
-alpha_s0 = 2.0
-alpha_s1 = 2.0
-alpha_s2 = 2.0
+alpha_wn1 = 10
+alpha_s0 = 5.0
+alpha_s1 = 5.0
+alpha_s2 = 5.0
 
 zeta = 1
 omega = np.ones((5,1), dtype=np.float64)
@@ -347,7 +347,7 @@ l = np.array([0.4, 0.3, 0.2])
 g = 10
 
 t = 0.0
-end = 100
+end = 10
 step = 0.0001
 i = 0
 
@@ -479,30 +479,30 @@ for i in tqdm(range(int(end/step))):
             e_0.append(e[0][0])
             e_1.append(e[1][0])
             e_2.append(e[2][0])
-            e_3.append(tau[0])
-            e_4.append(tau[1])
-            e_5.append(tau[2])
-            e_6.append(taus0[0])
-            e_7.append(taus0[1])
-            e_8.append(taus0[2])
-            e_9.append((100 * np.identity(3, dtype=np.float64)@s)[0])
-            e_10.append((100 * np.identity(3, dtype=np.float64)@s)[1])
-            e_11.append((100 * np.identity(3, dtype=np.float64)@s)[2])
-            e_12.append(y[0])
-            e_13.append(y[1])
-            e_14.append(y[2])
+            e_3.append(tau[0][0])
+            e_4.append(tau[1][0])
+            e_5.append(tau[2][0])
+            e_6.append(taus0[0][0])
+            e_7.append(taus0[1][0])
+            e_8.append(taus0[2][0])
+            e_9.append((100 * np.identity(3, dtype=np.float64)@s)[0][0])
+            e_10.append((100 * np.identity(3, dtype=np.float64)@s)[1][0])
+            e_11.append((100 * np.identity(3, dtype=np.float64)@s)[2][0])
+            e_12.append(y[0][0])
+            e_13.append(y[1][0])
+            e_14.append(y[2][0])
             e_15.append(e[0][1])
             e_16.append(e[1][1])
             e_17.append(e[2][1])
-            e_18.append(s[0])
-            e_19.append(s[1])
-            e_20.append(s[2])
-            e_21.append(wn[0])
-            e_22.append(wn[1])
-            e_23.append(wn[2])
-            e_24.append(taus1[0])
-            e_25.append(taus1[1])
-            e_26.append(taus1[2])
+            e_18.append(s[0][0])
+            e_19.append(s[1][0])
+            e_20.append(s[2][0])
+            e_21.append(wn[0][0])
+            e_22.append(wn[1][0])
+            e_23.append(wn[2][0])
+            e_24.append(taus1[0][0])
+            e_25.append(taus1[1][0])
+            e_26.append(taus1[2][0])
             e_27.append(beta.T @ omega)
 
             t_data.append(t)

@@ -16,14 +16,14 @@ e_27.append(beta.T @ omega)
 n_seed = 4
 alpha_lambda = 0.3
 alpha_wn0 = 100
-alpha_wn1 = 1.0
-alpha_s0 = 2.0
-alpha_s1 = 2.0
-alpha_s2 = 2.0
+alpha_wn1 = 10
+alpha_s0 = 5.0
+alpha_s1 = 5.0
+alpha_s2 = 5.0
 T = 1000
 step = 0.0001
-end = 100
-end_plt = 100
+end = 10
+end_plt = 10
 start_plt = 0
 
 n_e = 3

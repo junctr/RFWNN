@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 alpha_wn0 = 100
-alpha_wn1 = 1.0
+alpha_wn1 = 10
 
 def dwn_f(wn):
     

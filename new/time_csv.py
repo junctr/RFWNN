@@ -4,7 +4,7 @@ import numpy as np
 from tqdm import tqdm
 
 t = 0
-end = 100
+end = 10
 step = 0.0001
 i = 0
 t_data = []
