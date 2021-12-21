@@ -42,6 +42,7 @@ def main():
     tau0_data = [[] for i in range(3)]
     
     # t_data = [0.0]
+    # t_data = [0.0]
     # wn_data = [0.0]
     
     for i in tqdm(range(int(end/step))):
