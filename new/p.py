@@ -8,18 +8,18 @@ from tqdm import tqdm
 import csv
 
 
-def system(t, q, p, l, g, tau):
+def system(t, q, tau, wn):
     
     dq = np.empty((3, 2), dtype=np.float64)
 
     #dq = [[q1,q1_dot],[q2,q2_dot],[q3,q3_dot]]
     
     dq[:,[0]] = q[:,[1]]
-    dq[:,[1]] = np.linalg.inv(M(t,q,p,l)) @ (tau - tau0(t) - np.dot(C(t,q,p,l), q[:,[1]]) - G(t,q,l,p,g) - F(t,q))
+    dq[:,[1]] = np.linalg.inv(M(q)) @ (tau - tau0_f(t) - wn - np.dot(C(q), q[:,[1]]) - G(q) - F(q))
 
     return dq
 
-def M(t, q, p, l):
+def M(q):
 
     M = np.zeros((3,3), dtype=np.float64)
 
@@ -32,7 +32,7 @@ def M(t, q, p, l):
 
     return M
 
-def C(t, q, p, l):
+def C(q):
 
     C = np.zeros((3,3), dtype=np.float64)
 
@@ -41,7 +41,7 @@ def C(t, q, p, l):
 
     return C
 
-def G(t, q, p, l, g):
+def G(q):
     
     G = np.array([
         [(p[0] + p[1]) * g * l[0] * np.cos(q[0][0]) + p[1] * g * l[1] * np.cos(q[0][0] + q[1][0])],
@@ -52,7 +52,7 @@ def G(t, q, p, l, g):
 
     return G
 
-def F(t, q):
+def F(q):
 
     F = np.array([
         [5*q[0][1] + 0.2 * np.sign(q[0][1])],
@@ -63,7 +63,7 @@ def F(t, q):
 
     return F
     
-def qd(t):
+def qd_f(t):
 
     qd = np.array([
         [0.5*np.sin(2*np.pi*t), np.pi*np.cos(2*np.pi*t)], 
@@ -74,29 +74,49 @@ def qd(t):
 
     return qd
 
-def tau0(t):
-    """
+def tau0_f(t):
+    
     tau0 = np.array([
-        [2*np.sin(np.pi*t)],
-        [2*np.sin(np.pi*t)],
-        [2*np.sin(np.pi*t)]],
-        dtype=np.float64
-    )
-    """
-    tau0 = np.array([
-        [2*np.sin(10 *2*np.pi*t)+np.random.normal()],
-        [2*np.sin(10 *2*np.pi*t)+np.random.normal()],
-        [2*np.sin(10 *2*np.pi*t)+np.random.normal()]],
+        [2*np.sin(2*np.pi*t)],
+        [2*np.sin(2*np.pi*t)],
+        [2*np.sin(2*np.pi*t)]],
         dtype=np.float64
     )
     
+    # tau0 = np.array([
+    #     [2*np.sin(10 *2*np.pi*t)],
+    #     [2*np.sin(10 *2*np.pi*t)],
+    #     [2*np.sin(10 *2*np.pi*t)]],
+    #     dtype=np.float64
+    # )
+    
     return tau0
+
+def dwn_f(wn):
+    
+    # dwn = np.array([
+    #     [0.0],
+    #     [0.0],
+    #     [0.0]],
+    #     dtype=np.float64
+    # )
+    
+    wnv = np.array([
+        [np.random.normal()],
+        [np.random.normal()],
+        [np.random.normal()]],
+        dtype=np.float64
+    )
+    
+    dwn = -np.linalg.inv(alpha_wn0 * np.identity(3, dtype=np.float64)) @ wn + alpha_wn1 * np.identity(3, dtype=np.float64) @ wnv
+    
+    return dwn
 
 def e_f(t, q):
 
     e = np.empty((3,2), dtype=np.float64)
 
-    e = qd(t) - q
+    e = qd_f(t) - q
 
     return e
 
@@ -112,19 +132,19 @@ def x_f(t, q, s):
 
     x = np.empty((15,1), dtype=np.float64)
 
-    x = np.concatenate([q.T.reshape(-1,1), qd(t).T.reshape(-1,1), s])
+    x = np.concatenate([q.T.reshape(-1,1), qd_f(t).T.reshape(-1,1), s])
 
     return x
 
-def xji_f(t, x, xold, odot, co, ro):
+def xji_f(x, xold, odot, co, ro):
 
     xji = np.empty((15,5), dtype=np.float64)
 
-    xji = x + odot * np.exp(A_f(t,xold,co,ro))
+    xji = x + odot * np.exp(A_f(xold,co,ro))
 
     return xji
 
-def A_f(t, xji, co, ro):
+def A_f(xji, co, ro):
 
     A = np.empty((15,5), dtype=np.float64)
 
@@ -148,7 +168,7 @@ def muji_f(A):
 
     return muji
 
-def y(A, W):
+def y_f(A, W):
 
     #y = np.empty((3,1), dtype=np.float64)
 
@@ -169,19 +189,26 @@ def omega_f(odot, co, ro, W):
 
     return omega
 
-def taus(s, beta, zeta, omega):
+def taus0_f(s, beta, zeta, omega):
 
-    taus = ((beta.T @ omega)**2 / (np.linalg.norm(s) * beta.T @ omega + zeta)) * s
+    taus0 = ((beta.T @ omega)**2 / (np.linalg.norm(s) * beta.T @ omega + zeta)) * s
 
-    return taus
+    return taus0
 
-def tau_f(s, A, beta, zeta, omega):
+def taus1_f(s):
+    
+    taus1 = np.array([[alpha_s0,0.0,0.0],[0.0,alpha_s1,0.0],[0.0,0.0,alpha_s2]],dtype=np.float64) @ np.sign(s)
+    
+    return taus1
+
+def tau_f(s, taus0, taus1, y):
     
     tau = np.empty((3,1), dtype=np.float64)
 
     K = 100 * np.identity(3, dtype=np.float64)
 
-    tau = taus(s,beta,zeta,omega) + K @ s + y(A,W)
+    tau = taus0 + taus1 + K @ s + y
+    # tau = taus0 + K @ s + y
     #tau = y(A,W)
     #tau = taus(s,beta,zeta,omega) + K @ s
 
@@ -292,14 +319,14 @@ alpha_ro = 20 * np.identity(75, dtype=np.float64)
 alpha_beta = 0.001 * np.identity(5, dtype=np.float64)
 alpha_zeta = 0.1
 alpha_lambda = 0.3
+alpha_wn0 = 100
+alpha_wn1 = 1.0
+alpha_s0 = 2.0
+alpha_s1 = 2.0
+alpha_s2 = 2.0
 
 zeta = 1
 omega = np.ones((5,1), dtype=np.float64)
-
-p = np.array([4, 3, 1.5])
-l = np.array([0.4, 0.3, 0.2])
-g = 10
-
 beta = 0.1 * np.array([
     [1],
     [1],
@@ -307,12 +334,20 @@ beta = 0.1 * np.array([
     [1],
     [1]],
     dtype=np.float64
-
 )
+wn = np.array([
+    [0.0],
+    [0.0],
+    [0.0]],
+    dtype=np.float64
+)
+
+p = np.array([4, 3, 1.5])
+l = np.array([0.4, 0.3, 0.2])
+g = 10
 
 t = 0.0
 end = 100
-
 step = 0.0001
 i = 0
 
@@ -341,14 +376,10 @@ Wold = []
 odotold = []
 coold = []
 roold = []
-#betaold = []
-#zetaold = []
 Wold.append(W.copy())
 odotold.append(odot.copy())
 coold.append(co.copy())
 roold.append(ro.copy())
-#betaold.append(beta.copy())
-#zetaold.append(zeta)
 
 print("W")
 print(np.round(W,4))
@@ -385,6 +416,12 @@ e_18 = []
 e_19 = []
 e_20 = []
 e_21 = []
+e_22 = []
+e_23 = []
+e_24 = []
+e_25 = []
+e_26 = []
+e_27 = []
 
 t_data = []
 
@@ -392,18 +429,21 @@ start = time.time()
 
 for i in tqdm(range(int(end/step))):
 
-    qdt = qd(t)
+    qd = qd_f(t)
     e = e_f(t,q)
     s = s_f(e)
     x = x_f(t,q,s)
-    xji = xji_f(t,x,xold[-T],odot,co,ro)
-    A = A_f(t,xji,co,ro)
-    Aold = A_f(t,xold[-T], co,ro)
+    xji = xji_f(x,xold[-T],odot,co,ro)
+    A = A_f(xji,co,ro)
+    Aold = A_f(xold[-T], co,ro)
     B = B_f(x,Aold,odot,ro)
     mu = mu_f(A)
     muji = muji_f(A)
     omega = omega_f(odot,co,ro,W)
-    tau = tau_f(s,A,beta,zeta,omega)
+    y = y_f(A,W)
+    taus0 = taus0_f(s,beta,zeta,omega)
+    taus1 = taus1_f(s)
+    tau = tau_f(s,taus0,taus1,y)
     bk = bk_f(mu,muji,A,Aold,B,co)
     ek = ek_f(mu,muji,A,Aold,B,odot,co,ro,xold[-1])
     gk = gk_f(mu,muji,A,Aold,B,odot,co,ro)
@@ -418,10 +458,12 @@ for i in tqdm(range(int(end/step))):
         k_beta = 0.0
         k_zeta = 0.0
     
-    k1_q = system(t,q,p,l,g,tau)
-    k2_q = system(t+step/2,q+(step/2)*k1_q,p,l,g,tau)
-    k3_q = system(t+step/2,q+(step/2)*k2_q,p,l,g,tau)
-    k4_q = system(t+step,q+step*k3_q,p,l,g,tau)
+    dwn = dwn_f(wn)
+    
+    k1_q = system(t,q,tau,wn)
+    k2_q = system(t+step/2,q+(step/2)*k1_q,tau,wn)
+    k3_q = system(t+step/2,q+(step/2)*k2_q,tau,wn)
+    k4_q = system(t+step,q+step*k3_q,tau,wn)
 
     xold.append(x.copy())
 
@@ -440,22 +482,28 @@ for i in tqdm(range(int(end/step))):
             e_3.append(tau[0])
             e_4.append(tau[1])
             e_5.append(tau[2])
-            e_6.append(taus(s,beta,zeta,omega)[0])
-            e_7.append(taus(s,beta,zeta,omega)[1])
-            e_8.append(taus(s,beta,zeta,omega)[2])
+            e_6.append(taus0[0])
+            e_7.append(taus0[1])
+            e_8.append(taus0[2])
             e_9.append((100 * np.identity(3, dtype=np.float64)@s)[0])
             e_10.append((100 * np.identity(3, dtype=np.float64)@s)[1])
             e_11.append((100 * np.identity(3, dtype=np.float64)@s)[2])
-            e_12.append(y(A,W)[0])
-            e_13.append(y(A,W)[1])
-            e_14.append(y(A,W)[2])
+            e_12.append(y[0])
+            e_13.append(y[1])
+            e_14.append(y[2])
             e_15.append(e[0][1])
             e_16.append(e[1][1])
             e_17.append(e[2][1])
             e_18.append(s[0])
             e_19.append(s[1])
             e_20.append(s[2])
-            e_21.append(beta.T @ omega)
+            e_21.append(wn[0])
+            e_22.append(wn[1])
+            e_23.append(wn[2])
+            e_24.append(taus1[0])
+            e_25.append(taus1[1])
+            e_26.append(taus1[2])
+            e_27.append(beta.T @ omega)
 
             t_data.append(t)
 
@@ -469,7 +517,7 @@ for i in tqdm(range(int(end/step))):
     ro += step * ((alpha_ro @ gk @ W @ s).reshape(5,15).T) + alpha_lambda * (roold[-1] - roold[-2])
     beta += step * k_beta
     zeta += step * k_zeta
-    
+    wn += step * dwn
     
     t += step
     i += 1
@@ -510,7 +558,13 @@ e_all = [
     e_18,
     e_19,
     e_20,
-    e_21
+    e_21,
+    e_22,
+    e_23,
+    e_24,
+    e_25,
+    e_26,
+    e_27,
 ]
 
 param_all = [odot,co,ro,W,beta,zeta]
@@ -541,6 +595,6 @@ print(zeta)
 print("n_data")
 print(len(t_data))
 
-np.save(f"data/n_wn_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_param_all.npy",param_all)
+np.save(f"data/p_s{n_seed}_m{alpha_lambda}_wn{alpha_wn0}_{alpha_wn1}_s{alpha_s0}_{alpha_s1}_{alpha_s2}_T{T}_step{step}_t{end}_param_all.npy",param_all)
 #np.save(f"k_s{n_seed}_m{alpha_lambda}_T{T}_t{end}_param_all_old.npy",param_all_old)
-np.savetxt(f"data/n_wn_s{n_seed}_m{alpha_lambda}_T{T}_step{step}_t{end}_e_all.csv",e_all)
+np.savetxt(f"data/p_s{n_seed}_m{alpha_lambda}_wn{alpha_wn0}_{alpha_wn1}_s{alpha_s0}_{alpha_s1}_{alpha_s2}_T{T}_step{step}_t{end}_e_all.csv",e_all)
