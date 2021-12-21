@@ -52,6 +52,6 @@ for i in range(7):
         axes[i,j].plot(t_data, e_all_c[3*i+j], color="tab:green", label = "Conventional")
         axes[i,j].plot(t_data, e_all_p[3*i+j], color="tab:red", label = "Proposed")
         axes[i,j].legend()
-        axes[i,j].grid
+        axes[i,j].grid()
 
 plt.show()

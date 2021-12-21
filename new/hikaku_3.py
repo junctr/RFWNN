@@ -31,9 +31,9 @@ T = 1000
 step = 0.0001
 end = 100
 end_plt = 100
-start_plt = 0
+start_plt = 50
 
-n_e = 3
+n_e = 0
 
 t_data = np.loadtxt(f"data/step{step}_t{end}.csv")
 #e_data = np.loadtxt(f"p_s{s}_e_all.csv")
@@ -50,10 +50,9 @@ fig, axes = plt.subplots(nrows=3, ncols=1, sharex=False)
 
 for i in range(3):
     
-    for j in range(1):
-        axes[i,j].plot(t_data, e_all_c[3*i+j], color="tab:green", label = "Conventional")
-        axes[i,j].plot(t_data, e_all_p[3*i+j], color="tab:red", label = "Proposed")
-        axes[i,j].legend()
-        axes[i,j].grid
+    axes[i].plot(t_data, e_all_c[n_e+i], color="tab:green", label = "Conventional")
+    axes[i].plot(t_data, e_all_p[n_e+i], color="tab:red", label = "Proposed")
+    axes[i].legend()
+    axes[i].grid()
 
 plt.show()
