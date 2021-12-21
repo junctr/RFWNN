@@ -29,7 +29,7 @@ def dwn_f(wn):
 
 def taus1_f(wn):
     
-    taus1 = np.sign(wn)
+    taus1 = np.array([[2.0,0.0,0.0],[0.0,2.0,0.0],[0.0,0.0,2.0]],dtype=np.float64) @ np.sign(wn)
     
     return taus1
 
