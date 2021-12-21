@@ -22,8 +22,8 @@ alpha_s1 = 5.0
 alpha_s2 = 5.0
 T = 1000
 step = 0.0001
-end = 10
-end_plt = 10
+end = 100
+end_plt = 100
 start_plt = 0
 
 n_e = 3
