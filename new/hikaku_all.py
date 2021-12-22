@@ -16,7 +16,7 @@ e_27.append(beta.T @ omega)
 n_seed = 4
 alpha_lambda = 0.3
 alpha_wn0 = 100
-alpha_wn1 = 10
+alpha_wn1 = 100
 alpha_s0 = 5.0
 alpha_s1 = 5.0
 alpha_s2 = 5.0
@@ -42,9 +42,15 @@ fig, axes = plt.subplots(nrows=9, ncols=3, sharex=False)
 for i in range(9):
     
     for j in range(3):
-        axes[i,j].plot(t_data, e_all_c[3*i+j], color="tab:green", label = "Conventional")
-        axes[i,j].plot(t_data, e_all_p[3*i+j], color="tab:red", label = "Proposed")
-        axes[i,j].legend()
+        axes[i,j].plot(t_data, e_all_c[3*i+j])
+        axes[i,j].plot(t_data, e_all_p[3*i+j])
+        
+        # axes[i,j].plot(t_data, e_all_c[3*i+j], color="tab:green", label = "Conventional")
+        # axes[i,j].plot(t_data, e_all_p[3*i+j], color="tab:red", label = "Proposed")
+        # axes[i,j].legend()
+        
         axes[i,j].grid()
 
-plt.show()
+plt.savefig(f"data/s{n_seed}_m{alpha_lambda}_wn{alpha_wn0}_{alpha_wn1}_s{alpha_s0}_{alpha_s1}_{alpha_s2}_T{T}_step{step}_t{end}_all.png")
+
+# plt.show()

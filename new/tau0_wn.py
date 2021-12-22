@@ -60,7 +60,7 @@ def main():
     t_data = []
     wn_data = [[] for i in range(3)]
     # taus1_data = [[] for i in range(3)]
-    tau0_data = [[] for i in range(3)]
+    wn_tau0_data = [[] for i in range(3)]
     
     wn = np.array([
         [0.0],
@@ -79,7 +79,7 @@ def main():
         for j in range(3):
             
             # taus1_data[j].append(taus1_f(wn)[j][0])
-            tau0_data[j].append(tau0_f(t)[j][0])
+            wn_tau0_data[j].append(wn[j][0] + tau0_f(t)[j][0])
             wn_data[j].append(wn[j][0])
         
         wn += step * dwn_f(wn)
@@ -95,6 +95,7 @@ def main():
     #     axes[i].grid()
     
     
+    
     fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False)
 
     for i in range(3):
@@ -103,11 +104,11 @@ def main():
         axes[i,0].plot(t_data, wn_data[i])
         axes[i,0].legend()
         axes[i,0].grid()
-        axes[i,1].plot(t_data, wn_data[i]+tau0_data[i])
+        axes[i,1].plot(t_data, wn_tau0_data[i])
         axes[i,1].legend()
         axes[i,1].grid()
     
-    
+    plt.savefig("data/tau0_wn")
     
     plt.show()
     

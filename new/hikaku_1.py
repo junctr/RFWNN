@@ -16,7 +16,7 @@ e_27.append(beta.T @ omega)
 n_seed = 4
 alpha_lambda = 0.3
 alpha_wn0 = 100
-alpha_wn1 = 10
+alpha_wn1 = 100
 alpha_s0 = 5.0
 alpha_s1 = 5.0
 alpha_s2 = 5.0
@@ -26,7 +26,7 @@ end = 100
 end_plt = 100
 start_plt = 0
 
-n_e = 3
+n_e = 0
 
 t_data = np.loadtxt(f"data/step{step}_t{end}.csv")
 #e_data = np.loadtxt(f"p_s{s}_e_all.csv")
@@ -48,5 +48,7 @@ plt.xlim(start_plt,end_plt)
 #plt.ylim(-40,40)
 plt.legend()
 plt.grid()
+
+plt.savefig(f"data/s{n_seed}_m{alpha_lambda}_wn{alpha_wn0}_{alpha_wn1}_s{alpha_s0}_{alpha_s1}_{alpha_s2}_T{T}_step{step}_t{end}_1.png")
 
 plt.show()
