@@ -320,7 +320,7 @@ alpha_beta = 0.001 * np.identity(5, dtype=np.float64)
 alpha_zeta = 0.1
 alpha_lambda = 0.3
 alpha_wn0 = 100
-alpha_wn1 = 10
+alpha_wn1 = 100
 alpha_s0 = 5.0
 alpha_s1 = 5.0
 alpha_s2 = 5.0
