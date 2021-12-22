@@ -51,6 +51,6 @@ for i in range(9):
         
         axes[i,j].grid()
 
-plt.savefig(f"data/s{n_seed}_m{alpha_lambda}_wn{alpha_wn0}_{alpha_wn1}_s{alpha_s0}_{alpha_s1}_{alpha_s2}_T{T}_step{step}_t{end}_all.png")
+# plt.savefig(f"data/s{n_seed}_m{alpha_lambda}_wn{alpha_wn0}_{alpha_wn1}_s{alpha_s0}_{alpha_s1}_{alpha_s2}_T{T}_step{step}_t{end}_all.png")
 
-# plt.show()
+plt.show()
