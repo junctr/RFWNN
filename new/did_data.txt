@@ -12,6 +12,12 @@ alpha_s2 = 2.0
 
 alpha_wn0 = 100
 alpha_wn1 = 10
+alpha_s0 = 3.0
+alpha_s1 = 3.0
+alpha_s2 = 3.0
+
+alpha_wn0 = 100
+alpha_wn1 = 10
 alpha_s0 = 5.0
 alpha_s1 = 5.0
 alpha_s2 = 5.0
@@ -23,6 +29,12 @@ alpha_wn1 = 100
 alpha_s0 = 2.0
 alpha_s1 = 2.0
 alpha_s2 = 2.0
+
+alpha_wn0 = 100
+alpha_wn1 = 100
+alpha_s0 = 3.0
+alpha_s1 = 3.0
+alpha_s2 = 3.0
 
 alpha_wn0 = 100
 alpha_wn1 = 100
